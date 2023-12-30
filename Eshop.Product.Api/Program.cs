@@ -1,4 +1,6 @@
 using Eshop.Infrastructure.Mongo;
+using Eshop.Product.Api.Repositories;
+using Eshop.Product.Api.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddMongoDb(builder.Configuration);
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 var app = builder.Build();
 
@@ -22,6 +26,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+var dbInitializer = app.Services.GetService<IDatabaseInitializer>();
+await dbInitializer.InitializeAsync();
 
 app.MapControllers();
 

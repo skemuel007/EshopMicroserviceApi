@@ -8,6 +8,9 @@ services:
       dockerfile: Eshop.ApiGateway/Dockerfile
     networks: 
       - eshopapp
+    environment:
+      - "Mongo:ConnectionString=mongodb://mongodb:27017"
+      - "Mongo:Database=ProductDB"
   
   mongodb:
     image: mongo:6-jammy
