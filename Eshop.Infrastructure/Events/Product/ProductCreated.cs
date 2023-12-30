@@ -2,7 +2,7 @@ namespace Eshop.Infrastructure.Events.Product;
 
 public class ProductCreated
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
+    public string ProductId { get; set; }
+    public string ProductName { get; set; }
     public DateTime CreatedAt { get; set; }
 }
