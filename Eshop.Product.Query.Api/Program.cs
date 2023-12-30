@@ -1,5 +1,3 @@
-using Eshop.Infrastructure.EventBus;
-
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
@@ -7,10 +5,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddRabbitMq(builder.Configuration);
-builder.Services.Configure<RabbitMqOption>(
-    builder.Configuration.GetSection("RabbitMq"));
 
 var app = builder.Build();
 

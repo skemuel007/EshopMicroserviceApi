@@ -15,6 +15,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eshop.Product.Query.Api", "Eshop.Product.Query.Api\Eshop.Product.Query.Api.csproj", "{F9DB8F10-8D41-4087-89EC-6CE1D3E0279E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Eshop.Product.DataProvider", "Eshop.Product.DataProvider\Eshop.Product.DataProvider.csproj", "{450EE17C-8B72-42E4-A0F9-FB50DD1F5E4F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,5 +45,13 @@ Global
 		{2CAFC209-CC6A-498F-9ABB-D2465B0B9BD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2CAFC209-CC6A-498F-9ABB-D2465B0B9BD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2CAFC209-CC6A-498F-9ABB-D2465B0B9BD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9DB8F10-8D41-4087-89EC-6CE1D3E0279E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9DB8F10-8D41-4087-89EC-6CE1D3E0279E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9DB8F10-8D41-4087-89EC-6CE1D3E0279E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9DB8F10-8D41-4087-89EC-6CE1D3E0279E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{450EE17C-8B72-42E4-A0F9-FB50DD1F5E4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{450EE17C-8B72-42E4-A0F9-FB50DD1F5E4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{450EE17C-8B72-42E4-A0F9-FB50DD1F5E4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{450EE17C-8B72-42E4-A0F9-FB50DD1F5E4F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

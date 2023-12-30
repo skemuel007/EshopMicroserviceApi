@@ -1,8 +1,8 @@
 using Eshop.Infrastructure.EventBus;
 using Eshop.Infrastructure.Mongo;
 using Eshop.Product.Api.Handlers;
-using Eshop.Product.Api.Repositories;
-using Eshop.Product.Api.Services;
+using Eshop.Product.DataProvider.Repositories;
+using Eshop.Product.DataProvider.Services;
 using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,17 +23,17 @@ builder.Configuration.GetSection("RabbitMq").Bind(rabbitMq);
 
 builder.Services.AddMassTransit(x =>
 {
+    x.AddConsumer<CreateProductHandler>();
     // https://medium.com/@bantyder/how-to-use-masstransit-8-0-13-rabbitmq-with-aspnetcore-7e199998b92d
     x.UsingRabbitMq((ctx,cfg) =>
     {
-        x.AddConsumer<CreateProductHandler>();
         cfg.Host(new Uri(rabbitMq.ConnectionString),"/" , hostCfg => 
         { 
             hostCfg.Username(rabbitMq.Username);
             hostCfg.Password(rabbitMq.Password); 
         }); 
         
-        cfg.ReceiveEndpoint("Create_Product", endpoint =>
+        cfg.ReceiveEndpoint(rabbitMq.CreateProductRoutingKey, endpoint =>
         {
             endpoint.PrefetchCount = 16;
             endpoint.UseMessageRetry(retryConfig => { retryConfig.Interval(2, 100); });
@@ -51,12 +51,14 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-var busControl = app.Services.GetService<IBusControl>();
-await busControl.StartAsync();
+// https://github.com/CodeMazeBlog/CodeMazeGuides/tree/main/aspnetcore-webapi/MassTransitRabbitMQ
+// https://code-maze.com/masstransit-rabbitmq-aspnetcore/
+/*var busControl = app.Services.GetService<IBusControl>();
+await busControl.StartAsync(new CancellationToken());*/
 
 var dbInitializer = app.Services.GetService<IDatabaseInitializer>();
 await dbInitializer.InitializeAsync();
