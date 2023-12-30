@@ -1,0 +1,28 @@
+﻿version: '3.9'
+
+services:
+  eshop.apigateway:
+    image: eshop.apigateway
+    build:
+      context: .
+      dockerfile: Eshop.ApiGateway/Dockerfile
+    networks: 
+      - eshopapp
+  
+  mongodb:
+    image: mongo:6-jammy
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - eshopapp 
+
+
+volumes:
+  mongodata:
+    driver: local
+    
+networks:
+  eshopapp:
+    driver: bridge
