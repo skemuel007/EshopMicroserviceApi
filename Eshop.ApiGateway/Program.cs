@@ -9,8 +9,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddRabbitMq(builder.Configuration);
-builder.Services.Configure<RabbitMqOption>(
-    builder.Configuration.GetSection("RabbitMq"));
+builder.Services.Configure<RabbitMqOption>(builder.Configuration.GetSection("RabbitMq"));
 
 var app = builder.Build();
 

@@ -1,3 +1,4 @@
+using Eshop.Infrastructure.Query.Product;
 using MassTransit;
 using MassTransit.MultiBus;
 using Microsoft.Extensions.Configuration;
@@ -22,8 +23,11 @@ public static class EventBusExtension
                     hostCfg.Username(rabbitMq.Username);
                     hostCfg.Password(rabbitMq.Password); 
                 }); 
-                cfg.ConfigureEndpoints(ctx); 
+                cfg.ConfigureEndpoints(ctx);
             });
+            
+            // this is for product request
+            x.AddRequestClient<GetProductById>();
         });
 
         return services;

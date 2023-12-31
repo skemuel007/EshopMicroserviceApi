@@ -1,5 +1,7 @@
 using Eshop.Infrastructure.Commands.Product;
 using Eshop.Infrastructure.EventBus;
+using Eshop.Infrastructure.Events.Product;
+using Eshop.Infrastructure.Query.Product;
 using MassTransit;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -12,18 +14,24 @@ public class ProductController : ControllerBase
 {
     private readonly IBusControl _bus;
     private RabbitMqOption _rabbitMqOption;
+    private readonly IRequestClient<GetProductById> _requestClient;
     public ProductController(IBusControl bus,
-        IOptionsMonitor<RabbitMqOption> rabbitMqOptions)
+        IOptionsMonitor<RabbitMqOption> rabbitMqOptions,
+        IRequestClient<GetProductById> requestClient)
     {
         _bus = bus;
         _rabbitMqOption = rabbitMqOptions.CurrentValue;
+        _requestClient = requestClient;
     }
     
-    [HttpGet]
-    public async Task<IActionResult> Get()
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> Get(string productId)
     {
-        await Task.CompletedTask;
-        return Accepted("Product Created");
+        // await Task.CompletedTask;
+        var productRequest = new GetProductById() { ProductId = productId };
+        var response = await _requestClient.GetResponse<ProductCreated>(productRequest);
+        // return Accepted("Product Created");
+        return Accepted(response.Message);
     }
     
     [HttpPost]
