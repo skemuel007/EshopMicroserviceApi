@@ -9,8 +9,37 @@ services:
     networks: 
       - eshopapp
     environment:
+      - "RabbitMq:ConnectionString=rabbitmq://rabbitmq"
+      - "RabbitMq:Username=guest"
+      - "RabbitMq:Password=guest"
+      - "RabbitMq:CreateProductRoutingKey=Create_Product"
+  
+  eshop.product.api:
+    image: eshop.product.api
+    build:
+      context: .
+      dockerfile: Eshop.Product.Api/Dockerfile
+    networks:
+      - eshopapp
+    environment:
       - "Mongo:ConnectionString=mongodb://mongodb:27017"
       - "Mongo:Database=ProductDB"
+      - "RabbitMq:ConnectionString=rabbitmq://rabbitmq"
+      - "RabbitMq:Username=guest"
+      - "RabbitMq:Password=guest"
+      - "RabbitMq:CreateProductRoutingKey=Create_Product"
+  
+  rabbitmq:
+    image: rabbitmq:3.12.11-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - eshopapp
   
   mongodb:
     image: mongo:6-jammy

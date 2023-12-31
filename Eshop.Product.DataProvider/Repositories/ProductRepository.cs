@@ -2,7 +2,7 @@ using Eshop.Infrastructure.Commands.Product;
 using Eshop.Infrastructure.Events.Product;
 using MongoDB.Driver;
 
-namespace Eshop.Product.Api.Repositories;
+namespace Eshop.Product.DataProvider.Repositories;
 
 public class ProductRepository : IProductRepository
 {
@@ -16,10 +16,20 @@ public class ProductRepository : IProductRepository
     public async Task<ProductCreated> GetProduct(string productId)
     {
         //var product = _collection.AsQueryable().Where(x => x.Id == productId).FirstOrDefault();
-        var product = _collection.AsQueryable().FirstOrDefault(x => x.ProductId == productId);
-        if (product == null)
-            throw new Exception("Product not found.");
-        return await Task.FromResult(new ProductCreated() { ProductId = product.ProductId, ProductName = product.ProductName, CreatedAt = DateTime.UtcNow });
+        try
+        {
+            var product = _collection.AsQueryable<CreateProduct>().FirstOrDefault(x => x.ProductId == productId);
+            if (product == null)
+                throw new Exception("Product not found.");
+
+            var fetchedProduct = new ProductCreated()
+                { ProductId = product.ProductId, ProductName = product.ProductName, CreatedAt = DateTime.UtcNow };
+            return await Task.FromResult(fetchedProduct);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<ProductCreated> AddProduct(CreateProduct product)

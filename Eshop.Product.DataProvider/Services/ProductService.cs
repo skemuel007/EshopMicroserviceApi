@@ -1,8 +1,8 @@
 using Eshop.Infrastructure.Commands.Product;
 using Eshop.Infrastructure.Events.Product;
-using Eshop.Product.Api.Repositories;
+using Eshop.Product.DataProvider.Repositories;
 
-namespace Eshop.Product.Api.Services;
+namespace Eshop.Product.DataProvider.Services;
 
 public class ProductService : IProductService
 {
@@ -14,7 +14,8 @@ public class ProductService : IProductService
     }
     public async Task<ProductCreated> GetProduct(string productId)
     {
-        return await _productRepository.GetProduct(productId);
+        var product = await _productRepository.GetProduct(productId);
+        return product;
     }
 
     public async Task<ProductCreated> AddProduct(CreateProduct product)

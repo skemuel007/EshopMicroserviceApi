@@ -1,8 +1,7 @@
-using Eshop.Infrastructure.Commands.Product;
 using Eshop.Product.DataProvider.Services;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Eshop.Product.Api.Controllers;
+namespace Eshop.Product.Query.Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -20,11 +19,5 @@ public class ProductController : ControllerBase
     {
         var product = await _productService.GetProduct(productId);
         return Ok(product);
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Add([FromBody] CreateProduct product)
-    {
-        return Ok(await _productService.AddProduct(product: product));
     }
 }
